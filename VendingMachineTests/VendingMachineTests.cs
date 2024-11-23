@@ -67,7 +67,7 @@ namespace VendingMachineTest
             // Validating inserted coins total amount and performing validation of buying action accodgingly.
             if (insertedAmountInCents >= productPriceInCents)
             {
-                // Defining what Buy() should do on the mock machine, which is to return the VitaminWell product added in index 0 of 'product'.
+                // Defining what Buy() should do on the mock machine, which is to return the VitaminWell product added in index 0 of 'stock'.
                 _machine.Setup(_vMachine => _vMachine.Buy(It.IsAny<int>())).Returns(stock[0]);
 
 
@@ -76,20 +76,18 @@ namespace VendingMachineTest
                 var boughtProduct = _machine.Object.Buy(0);
 
                 // Assert
-                // Validating for the correct product name and price for the purchased item. 
-                // Available count does not automatically get updated and so cant be tested here.
-                // Testing for 'Available' requires additional setup for mock to udpate this when a successful purchase happens or need real implementation of the functionality.
+                // Validating for the correct product name and price for the purchased item.
                 Assert.That(boughtProduct.Price.Euros, Is.EqualTo(1));
                 Assert.That(boughtProduct.Price.Cents, Is.EqualTo(50));
                 Assert.That(boughtProduct.Name, Is.EqualTo("VitaminWell"));
             }
             else
             {
+                // Assert
+                // Validating when the inserted coin amount is less than price of product.
                 Assert.Fail("Insufficient balance amount to buy product worth "+ productPriceInCents + " cents, add more coins.");
             }
         }
-
-        // Tests for buying a product and validating the balance amount returned can be added later.
 
         // The .NET garbage collector automatically cleans up unreferenced objects,
         // so simple object references like _machine do not strictly require manual cleanup.

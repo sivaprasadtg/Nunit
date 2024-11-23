@@ -107,3 +107,4 @@ C:\Users\Sivap\source\repos\If_solution\VendingMachineTests\obj\Debug\net8.0\ref
 C:\Users\Sivap\source\repos\If_solution\VendingMachineTests\obj\Debug\net8.0\VendingMachineTests.pdb
 C:\Users\Sivap\source\repos\If_solution\VendingMachineTests\obj\Debug\net8.0\VendingMachineTests.genruntimeconfig.cache
 C:\Users\Sivap\source\repos\If_solution\VendingMachineTests\obj\Debug\net8.0\ref\VendingMachineTests.dll
+C:\Users\Sivap\source\repos\If_solution\VendingMachineTests\obj\Debug\net8.0\VendingMachineTests.sourcelink.json

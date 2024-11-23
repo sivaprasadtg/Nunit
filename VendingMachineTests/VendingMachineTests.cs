@@ -24,7 +24,8 @@ namespace VendingMachineTest
             var startAmount = new Money { Euros = 0, Cents = 0 };
             _machine.Setup(_vMachine => _vMachine.Amount).Returns(startAmount);
 
-            // setting new coin insert using an example: 2 euro valid coin and making this reflect in the mock machine Amount property.
+            // setting new coin insert using an example: 2 euro valid coin and making this reflect in the mock machine Amount property. 
+            // This part can be parameterised.
             var coinInsert = new Money { Euros = 2, Cents = 0 };
             _machine.Setup(_vMachine => _vMachine.InsertCoin(It.IsAny<Money>())).Returns(coinInsert);
 
@@ -38,10 +39,8 @@ namespace VendingMachineTest
             Assert.That(updatedAmount.Cents, Is.EqualTo(0));
         }
 
-        // A test for validating the Amount property when multiple coins are inserted can be added on later stage.
-
         [Test]
-        public void Buy_Product_SuccessCase()
+        public void Buy_Product_TestCase()
         {
             // Arrange
             // Setting up the test data for an example product that can be found in the vending machine.
@@ -57,28 +56,43 @@ namespace VendingMachineTest
             _machine.Setup(_vMachine => _vMachine.Products).Returns(stock);
 
             // Inserting 2 euros for buying this product, amount property of mock machine will reflect this value.
-            var coinInsertForBuying = new Money { Euros = 2, Cents = 50 };
+            // This part can be parameterised.
+            var coinInsertForBuying = new Money { Euros = 2, Cents = 0 };
             _machine.Setup(_vMachine => _vMachine.Amount).Returns(coinInsertForBuying);
 
-            // Defining what Buy() should do on the mock machine, which is to return the VitaminWell product added in index 0 of 'product'.
-            _machine.Setup(_vmachine => _vmachine.Buy(It.IsAny<int>())).Returns(stock[0]);
+            // To compare price of product and amount inserted.
+            int productPriceInCents = (product.Price.Euros * 100) + product.Price.Cents;
+            int insertedAmountInCents = (coinInsertForBuying.Euros * 100) + coinInsertForBuying.Cents;
+
+            // Validating inserted coins total amount and performing validation of buying action accodgingly.
+            if (insertedAmountInCents >= productPriceInCents)
+            {
+                // Defining what Buy() should do on the mock machine, which is to return the VitaminWell product added in index 0 of 'product'.
+                _machine.Setup(_vMachine => _vMachine.Buy(It.IsAny<int>())).Returns(stock[0]);
 
 
-            // Act
-            // Buying action of VitaminWell which is stored in the product array at index 0 on mock machine.
-            var boughtProduct = _machine.Object.Buy(0);
+                // Act
+                // Buying action of VitaminWell which is stored in the product array at index 0 on mock machine.
+                var boughtProduct = _machine.Object.Buy(0);
 
-            // Assert
-            // validating for the correct product name and price for the purchased item. Available count does not automatically get updated and so cant be tested here.
-            // Testing for 'Available' requires additional setup for mock to udpate this when a successful purchase happens or need real implementation of the functionality.
-            Assert.That(boughtProduct.Price.Euros, Is.EqualTo(1));
-            Assert.That(boughtProduct.Price.Cents, Is.EqualTo(50));
-            Assert.That(boughtProduct.Name, Is.EqualTo("VitaminWell"));
+                // Assert
+                // Validating for the correct product name and price for the purchased item. 
+                // Available count does not automatically get updated and so cant be tested here.
+                // Testing for 'Available' requires additional setup for mock to udpate this when a successful purchase happens or need real implementation of the functionality.
+                Assert.That(boughtProduct.Price.Euros, Is.EqualTo(1));
+                Assert.That(boughtProduct.Price.Cents, Is.EqualTo(50));
+                Assert.That(boughtProduct.Name, Is.EqualTo("VitaminWell"));
+            }
+            else
+            {
+                Assert.Fail("Insufficient balance amount to buy product worth "+ productPriceInCents + " cents, add more coins.");
+            }
         }
 
-        // Tests for buying a product and validating the balance amount can be added later.
+        // Tests for buying a product and validating the balance amount returned can be added later.
 
-        // The .NET garbage collector automatically cleans up unreferenced objects, so simple object references like _machine do not strictly require manual cleanup.
+        // The .NET garbage collector automatically cleans up unreferenced objects,
+        // so simple object references like _machine do not strictly require manual cleanup.
         // But its still a best practice to follow.
         [TearDown]
         public void TearDown()

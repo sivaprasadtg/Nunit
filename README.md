@@ -6,7 +6,7 @@ Since the given vending machine code is in C#, it demands unit tests to be added
 
 ### Observations:
 ```
-1.IVendingMachine is an abstract interface for the Vending Machine program, ie this is the contract explaining what the inheriting class should contain, while that class itself defines how the implementations over these are to be done.
+1.IVendingMachine is an interface for the Vending Machine program, ie this is the contract explaining what the inheriting class should contain, while that class itself defines how the implementations over these are to be done.
 2.The interface contains properties Manufacture, Amount and array of Products.
 3.Interface also contains methods “InsertCoin(Money amount)”, “ReturnMoney()” and “Buy(int productNumber)”.
 4.Struct Money and Product implements encapsulation.

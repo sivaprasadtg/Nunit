@@ -21,7 +21,8 @@ b) Buy product successfully using inserted coins.
 
 The class implementing this interface will contain operation to accept inserted coins, display total amount, buy products with sufficient coins inserted etc. 
 
-
+### Execute Tests
+In order to run the tests, clone the repo to the local and use Visual studio - Test Explorer (ctrl+E+T), from Test menu.
 
 ### Reference materials used: 
 

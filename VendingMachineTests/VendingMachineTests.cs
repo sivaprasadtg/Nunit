@@ -1,7 +1,7 @@
 using Moq;
 using VendingMachine;
 
-namespace VendingMachineTest
+namespace VendingMachineTests
 {
     [TestFixture]
     public class VendingMachineTests
